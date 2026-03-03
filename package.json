@@ -1,6 +1,6 @@
 {
   "name": "@pedrocastellanos/screen-recorder",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsc --emitDeclarationOnly && esbuild src/index.ts --bundle --minify --format=esm --outfile=dist/index.js",
     "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,10 @@
   "devDependencies": {
     "esbuild": "^0.27.3",
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@vitest/coverage-v8": "^4.0.18",
+    "jsdom": "^28.1.0",
+    "vitest": "^4.0.18"
   }
 }

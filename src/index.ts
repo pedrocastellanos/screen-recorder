@@ -78,6 +78,7 @@ class ScreenRecorder {
 
         this.#currentFileName = this.#config.fileName;
         this.initializeElements();
+        this.updateButtonStates(false);
         this.bindEvents();
     }
 
