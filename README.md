@@ -83,23 +83,36 @@ recorder.onDownloadRecording((fileName) => {
 
 ## Configuration Options
 
-| Option | Type | Default | Description |
-|Prefix|---|---|---|
-| `audio` | `boolean` | `true` | Whether to record audio. |
-| `video` | `boolean` | `true` | Whether to record video. |
-| `startButtonId` | `string` | `'startRecording'` | ID of the HTML button to start recording. |
-| `stopButtonId` | `string` | `'stopRecording'` | ID of the HTML button to stop recording. |
-| `downloadButtonId` | `string` \| `'auto'` | `'auto'` | ID of the download button. If `'auto'`, download triggers automatically on stop. |
-| `fileName` | `string` | `'recording'` | Base name for the downloaded file. |
-| `videoFormat` | `string` | `'video/webm'` | MIME type for the Blob. |
-| `mimeType` | `string` | `'video/webm;codecs=vp9,opus'` | MIME type for the MediaRecorder. |
-| `videoBitsPerSecond` | `number` | `2500000` | Video bitrate (bps). |
-| `audioBitsPerSecond` | `number` | `128000` | Audio bitrate (bps). |
-| `frameRate` | `number` | `30` | Desired frame rate. |
-| `cursor` | `'always'` \| `'motion'` \| `'never'` | `'always'` | Cursor visibility in recording. |
-| `displaySurface` | `'monitor'` \| `'window'` \| `'application'` \| `'browser'` | `'monitor'` | Preferred display surface to capture. |
-| `logicalSurface` | `boolean` | `true` | Whether to capture logical surface. |
-| `resizeMode` | `'crop-and-scale'` \| `'none'` | `'crop-and-scale'` | Resize mode for the video track. |
+### Media Control
+| Option      | Type      | Default | Description              |
+| ----------- | --------- | ------- | ------------------------ |
+| **`audio`** | `boolean` | `true`  | Whether to record audio. |
+| **`video`** | `boolean` | `true`  | Whether to record video. |
+
+### UI Integration
+| Option                 | Type                 | Default            | Description                                                        |
+| ---------------------- | -------------------- | ------------------ | ------------------------------------------------------------------ |
+| **`startButtonId`**    | `string`             | `'startRecording'` | ID of the HTML start button.                                       |
+| **`stopButtonId`**     | `string`             | `'stopRecording'`  | ID of the HTML stop button.                                        |
+| **`downloadButtonId`** | `string` \| `'auto'` | `'auto'`           | ID of the download button. If `'auto'`, triggers download on stop. |
+
+### Output Settings
+| Option            | Type     | Default                        | Description                            |
+| ----------------- | -------- | ------------------------------ | -------------------------------------- |
+| **`fileName`**    | `string` | `'recording'`                  | Base filename for the download.        |
+| **`videoFormat`** | `string` | `'video/webm'`                 | MIME type for the output Blob.         |
+| **`mimeType`**    | `string` | `'video/webm;codecs=vp9,opus'` | MediaRecorder MIME type configuration. |
+
+### Quality & Capture Constraints
+| Option                   | Type                                  | Default            | Description                                  |
+| ------------------------ | ------------------------------------- | ------------------ | -------------------------------------------- |
+| **`videoBitsPerSecond`** | `number`                              | `2500000`          | Video bitrate in bits per second (2.5 Mbps). |
+| **`audioBitsPerSecond`** | `number`                              | `128000`           | Audio bitrate in bits per second (128 kbps). |
+| **`frameRate`**          | `number`                              | `30`               | Desired frame rate (FPS).                    |
+| **`cursor`**             | `'always'` \| `'motion'` \| `'never'` | `'always'`         | Cursor visibility in the recording.          |
+| **`displaySurface`**     | `'monitor'` \| `'window'`             | `'monitor'`        | Preferred display surface to capture.        |
+| **`logicalSurface`**     | `boolean`                             | `true`             | Whether to capture logical surface.          |
+| **`resizeMode`**         | `'crop-and-scale'` \| `'none'`        | `'crop-and-scale'` | Video track resize mode.                     |
 
 ## API Methods
 
