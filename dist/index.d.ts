@@ -31,11 +31,6 @@ declare class ScreenRecorder {
      */
     constructor(config: ScreenRecorderConfig);
     /**
-     * Validates that start and stop button IDs are different
-     * @throws {Error} If button IDs are the same
-     */
-    private validateButtonIds;
-    /**
      * Initializes DOM elements
      * @throws {Error} If required elements are not found
      */
@@ -117,8 +112,13 @@ declare class ScreenRecorder {
      * @returns File extension string
      */
     private getFileExtension;
-    /**
-     * Updates button states based on recording status
+    /**if (this.#startButton) {
+            this.#startButton.disabled = isRecording;
+        }
+        
+        if (this.#stopButton) {
+            this.#stopButton.disabled = !isRecording;
+        }tatus
      * @param isRecording - Current recording state
      */
     private updateButtonStates;

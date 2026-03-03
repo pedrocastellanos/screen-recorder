@@ -40,8 +40,8 @@ class ScreenRecorder {
     #isRecording: boolean = false;
     #currentFileName: string;
 
-    #startButton!: HTMLButtonElement;
-    #stopButton!: HTMLButtonElement;
+    #startButton: HTMLButtonElement | null = null;
+    #stopButton: HTMLButtonElement | null = null;
     #downloadButton: HTMLButtonElement | null = null;
 
     #onStartCallback: ((fileName: string) => void) | null = null;
@@ -77,19 +77,8 @@ class ScreenRecorder {
         };
 
         this.#currentFileName = this.#config.fileName;
-        this.validateButtonIds();
         this.initializeElements();
         this.bindEvents();
-    }
-
-    /**
-     * Validates that start and stop button IDs are different
-     * @throws {Error} If button IDs are the same
-     */
-    private validateButtonIds(): void {
-        if (this.#config.startButtonId === this.#config.stopButtonId) {
-            throw new Error('Start and stop button IDs cannot be the same');
-        }
     }
 
     /**
@@ -100,31 +89,34 @@ class ScreenRecorder {
         const startElement = document.getElementById(this.#config.startButtonId);
         const stopElement = document.getElementById(this.#config.stopButtonId);
 
-        if (!startElement) {
-            throw new Error(`Element with ID "${this.#config.startButtonId}" not found`);
-        }
-        if (!stopElement) {
-            throw new Error(`Element with ID "${this.#config.stopButtonId}" not found`);
-        }
-
-        // Check if elements are actually buttons
-        if (!(startElement instanceof HTMLButtonElement)) {
-            throw new Error(`Element with ID "${this.#config.startButtonId}" is not a button`);
-        }
-        if (!(stopElement instanceof HTMLButtonElement)) {
-            throw new Error(`Element with ID "${this.#config.stopButtonId}" is not a button`);
+        if (startElement) {
+            if (!(startElement instanceof HTMLButtonElement)) {
+                console.warn(`Element with ID "${this.#config.startButtonId}" is not a button`);
+            } else {
+                this.#startButton = startElement;
+            }
         }
 
-        this.#startButton = startElement;
-        this.#stopButton = stopElement;
+        if (stopElement) {
+            if (!(stopElement instanceof HTMLButtonElement)) {
+                console.warn(`Element with ID "${this.#config.stopButtonId}" is not a button`);
+            } else {
+                this.#stopButton = stopElement;
+            }
+        }
+
+        if (this.#startButton && this.#stopButton && this.#startButton === this.#stopButton) {
+            console.warn('Start and stop buttons are the same element');
+        }
 
         if (this.#config.downloadButtonId && this.#config.downloadButtonId !== 'auto') {
             const downloadElement = document.getElementById(this.#config.downloadButtonId);
             if (downloadElement) {
                 if (!(downloadElement instanceof HTMLButtonElement)) {
-                    throw new Error(`Element with ID "${this.#config.downloadButtonId}" is not a button`);
+                    console.warn(`Element with ID "${this.#config.downloadButtonId}" is not a button`);
+                } else {
+                    this.#downloadButton = downloadElement;
                 }
-                this.#downloadButton = downloadElement;
             }
         }
     }
@@ -133,8 +125,13 @@ class ScreenRecorder {
      * Binds event listeners to buttons
      */
     private bindEvents(): void {
-        this.#startButton.addEventListener('click', () => this.startRecording());
-        this.#stopButton.addEventListener('click', () => this.stopRecording());
+        if (this.#startButton) {
+            this.#startButton.addEventListener('click', () => this.startRecording());
+        }
+
+        if (this.#stopButton) {
+            this.#stopButton.addEventListener('click', () => this.stopRecording());
+        }
 
         if (this.#downloadButton) {
             this.#downloadButton.addEventListener('click', () => this.downloadRecording());
@@ -409,13 +406,23 @@ class ScreenRecorder {
         return 'webm';
     }
 
-    /**
-     * Updates button states based on recording status
+    /**if (this.#startButton) {
+            this.#startButton.disabled = isRecording;
+        }
+        
+        if (this.#stopButton) {
+            this.#stopButton.disabled = !isRecording;
+        }tatus
      * @param isRecording - Current recording state
      */
     private updateButtonStates(isRecording: boolean): void {
-        this.#startButton.disabled = isRecording;
-        this.#stopButton.disabled = !isRecording;
+        if (this.#startButton) {
+            this.#startButton.disabled = isRecording;
+        }
+
+        if (this.#stopButton) {
+            this.#stopButton.disabled = !isRecording;
+        }
 
         if (this.#downloadButton) {
             this.#downloadButton.disabled = isRecording;
